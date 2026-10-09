@@ -1,0 +1,43 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Connection test doc
+    match /test/{docId} {
+      allow read: if true;
+    }
+
+    // Shared Topic Videos: Any student or teacher can read
+    match /topic_videos/{videoId} {
+      allow read: if true;
+      allow create, update, delete: if true;
+    }
+
+    // Users and progress
+    match /users/{userId} {
+      allow read, write: if true;
+      match /progress/{topicId} {
+        allow read, write: if true;
+      }
+    }
+
+    // Accounts for cross-device student and teacher login
+    match /accounts/{accountId} {
+      allow read, write: if true;
+    }
+
+    // Classes
+    match /classes/{classId} {
+      allow read, write: if true;
+    }
+
+    // Questions bank
+    match /questions/{questionId} {
+      allow read, write: if true;
+    }
+
+    // Customized Topic Knowledge Base edited by teachers
+    match /topic_knowledge/{topicId} {
+      allow read, write: if true;
+    }
+  }
+}
